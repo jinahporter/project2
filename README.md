@@ -1,7 +1,7 @@
 # project 2
 ## Team Members: Alex Riner, Emeka Obianyor, Jinah Porter, Pankaj Tahiliani
 
-## Discovering YouTube Trends 
+## Discovering YouTube Trends in United States, Canada, United Kingdom and Mexico
 
 ### Breakdown the tasks
 #### 1) Pulling it to pandas (Python) and cleaning
