@@ -30,8 +30,16 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def home():
-    return render_template("index.html", data=db)
+    return render_template("index.html")
 
+
+@app.route("/data/<country>")
+def data(country):
+
+    # Query to database tables
+    # do whatever you need to frame the data
+
+    return jsonify(db_data)
 
 
 if __name__ == "__main__":
