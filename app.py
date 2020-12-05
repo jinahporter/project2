@@ -12,6 +12,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
+
 from config import dbuser, dbpassword, dbhost, dbport, dbname
 
 #################################################
@@ -23,13 +24,13 @@ app = Flask(__name__)
 # Database Setup
 #################################################
 
-try:
-    db_uri = os.environ['DATABASE_URL']
-except KeyError:
-    db_uri = "Insert Local Database"
+# try:
+#     db_uri = os.environ['DATABASE_URL']
+# except KeyError:
+#     db_uri = "Insert Local Database"
 
-print(db_uri)
-app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+# print(db_uri)
+# app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 
 # db = SQLAlchemy(app)
 
@@ -38,14 +39,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 # connection = engine.connect()
 
 # Connect to Database - Alternative
-connection_string2 = f'{dbuser}:{dbpassword}@database-1.cvmfiiilpm7y.us-east-1.rds.amazonaws.com:{dbport}/{dbname}'
-engine = create_engine(f'postgresql://{connection_string2}')
-
+engine = create_engine(f"postgres://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbname}")
 
 @app.route("/")
 def home():
     return render_template("index.html")
-
 
 @app.route("/data/<country>")
 def data(country):
@@ -55,10 +53,10 @@ def data(country):
 
     ##### Perform a query to retrieve the data and precipitation scores #####
     singleCountry_youtubeVids = pd.read_sql(
-        "SELECT * FROM youtube_table WHERE country = 'MX'", connection)
+        f"SELECT * FROM youtube_table WHERE country = '{country}'", connection)
 
     ##### Convert df to json #####
-    singleCountry_youtubeVids = singleCountry_youtubeVids.to_json()
+    singleCountry_youtubeVids = singleCountry_youtubeVids.to_dict(orient='records')
 
     ##### Close the session/connection #####
     connection.close()
@@ -66,7 +64,6 @@ def data(country):
 
     ##### Return a json which could be parsed further using js #####
     return jsonify(singleCountry_youtubeVids)
-
 
 if __name__ == "__main__":
     app.run(debug=True)
