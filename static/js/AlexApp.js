@@ -16,3 +16,11 @@ d3.json(url).then(function(response) {
     });
   });
 });
+
+var usButton = d3.select("#US");
+usButton.on("click",function(){
+  url="/data/US"
+  d3.json(url).then(function(response) {
+    console.log(response);
+  })
+});
