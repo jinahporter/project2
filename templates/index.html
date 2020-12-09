@@ -26,8 +26,9 @@
                 <a class="navbar-brand" href="index.html">
                     <h1 class="tm-site-title mb-0">YOUTUBE Trending</h1>
                 </a>
-                <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <i class="fas fa-bars tm-nav-icon"></i>
                 </button>
 
@@ -42,14 +43,14 @@
                         </li>
                         <li class="nav-item dropdown">
 
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="far fa-file-alt"></i>
                                 <span>
                                     Select Country <i class="fas fa-angle-down"></i>
                                 </span>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu" id="countryPick" aria-labelledby="navbarDropdown">
                                 <a id="US" class="dropdown-item" href="#">United States</a>
                                 <a id="CA" class="dropdown-item" href="#">Canada</a>
                                 <a id="MX" class="dropdown-item" href="#">Mexico</a>
@@ -58,14 +59,14 @@
                         </li>
                         <li class="nav-item dropdown">
 
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="far fa-file-alt"></i>
                                 <span>
                                     Select Metric <i class="fas fa-angle-down"></i>
                                 </span>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu" id="metricPick" aria-labelledby="navbarDropdown">
                                 <a id="view" class="dropdown-item" href="#">View Count</a>
                                 <a id="like" class="dropdown-item" href="#">Likes</a>
                                 <a id="dislike" class="dropdown-item" href="#">Dislikes</a>
@@ -80,18 +81,21 @@
                             </a>
                         </li> -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-cog"></i>
                                 <span>
                                     Trends in Year <i class="fas fa-angle-down"></i>
                                 </span>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu" id="yearPick" aria-labelledby="navbarDropdown">
                                 <a id="a" class="dropdown-item" href="#">2018</a>
                                 <a id="b" class="dropdown-item" href="#">2019</a>
                                 <a id="c" class="dropdown-item" href="#">2020</a>
                             </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <button id="filter-btn" type="button" class="btn btn-default">Filter</button>
                         </li>
                     </ul>
                     <!-- <ul class="navbar-nav">
@@ -130,7 +134,7 @@
                         <h2 class="tm-block-title">Storage Information</h2>
                         <div id="pieChartContainer">
                             <canvas id="pieChart" class="chartjs-render-monitor" width="200" height="200"></canvas>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
                 <!-- <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
@@ -212,19 +216,22 @@
                         </div>
                     </div>
                 </div> -->
-                <!-- <div class="col-12 tm-block-col">
+                <div class="col-12 tm-block-col">
                     <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
                         <h2 class="tm-block-title">Orders List</h2>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">ORDER NO.</th>
-                                    <th scope="col">STATUS</th>
-                                    <th scope="col">OPERATORS</th>
-                                    <th scope="col">LOCATION</th>
-                                    <th scope="col">DISTANCE</th>
-                                    <th scope="col">START DATE</th>
-                                    <th scope="col">EST DELIVERY DUE</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Category ID.</th>
+                                    <th scope="col">Channel Title</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Trending Date</th>
+                                    <th scope="col">Views</th>
+                                    <th scope="col">Comments</th>
+                                    <th scope="col">Likes</th>
+                                    <th scope="col">Dislikes</th>
+                                    <th scope="col">Link</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -363,15 +370,16 @@
                             </tbody>
                         </table>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
         <footer class="tm-footer row tm-mt-small">
             <div class="col-12 font-weight-light">
                 <p class="text-center text-white mb-0 px-4 small">
-                    Copyright &copy; <b>2018</b> All rights reserved. 
-                    
-                    Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+                    Copyright &copy; <b>2018</b> All rights reserved.
+
+                    Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template
+                        Mo</a>
                 </p>
             </div>
         </footer>
@@ -407,7 +415,7 @@
 
             $(window).resize(function () {
                 updateLineChart();
-                updateBarChart();                
+                updateBarChart();
             });
         })
     </script>
