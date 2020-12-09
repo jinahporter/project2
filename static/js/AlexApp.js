@@ -1,7 +1,6 @@
-var url = "/data/MX";
-var tbody = d3.select("tbody");
 var data;
 var currentMetric  = "likes";
+countryUpdate("US")
 // d3.json(url).then(function(response) {
 //   console.log(response);
 //   tbody.text("");
