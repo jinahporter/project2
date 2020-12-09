@@ -1,5 +1,6 @@
 var url = "/data/MX";
 var tbody = d3.select("tbody");
+var data;
 // d3.json(url).then(function(response) {
 //   console.log(response);
 //   tbody.text("");
@@ -37,5 +38,6 @@ function countryUpdate(cCode){
   url=`/data/${cCode}`
   d3.json(url).then(function(response) {
       console.log(response);
+      data = response; 
     })
 };
