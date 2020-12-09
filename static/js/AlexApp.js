@@ -1,6 +1,7 @@
 var url = "/data/MX";
 var tbody = d3.select("tbody");
 var data;
+var currentMetric  = "likes";
 // d3.json(url).then(function(response) {
 //   console.log(response);
 //   tbody.text("");
@@ -41,24 +42,29 @@ function countryUpdate(cCode){
   d3.json(url).then(function(response) {
       // console.log(response);
       data = response; 
+      metricUpdate(currentMetric);
     })
 };
 //metric buttons
 var likeButton = d3.select("#like");
 likeButton.on("click",function(){
   metricUpdate("likes");
+  currentMetric("likes");
 });
 var viewButton = d3.select("#view");
 viewButton.on("click",function(){
   metricUpdate("view_count");
+  currentMetric("view_count")
 });
 var dislikeButton = d3.select("#dislike");
 dislikeButton.on("click",function(){
   metricUpdate("dislikes");
+  currentMetric("dislikes");
 });
 var commentButton = d3.select("#comment");
 ukButton.on("click",function(){
   metricUpdate("comment_count");
+  currentMetric("comment_count");
 });
 //
 function metricUpdate(metric){
