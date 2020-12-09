@@ -18,6 +18,7 @@ var data;
 //   });
 // });
 
+//Country Buttons
 var usButton = d3.select("#US");
 usButton.on("click",function(){
   countryUpdate(this.id);
@@ -34,6 +35,7 @@ var ukButton = d3.select("#UK");
 ukButton.on("click",function(){
   countryUpdate(this.id);
 });
+//Grab new Country Data
 function countryUpdate(cCode){
   url=`/data/${cCode}`
   d3.json(url).then(function(response) {
@@ -41,3 +43,19 @@ function countryUpdate(cCode){
       data = response; 
     })
 };
+var likeButton = d3.select("#like");
+likeButton.on("click",function(){
+  countryUpdate(this.id);
+});
+var viewButton = d3.select("#view");
+viewButton.on("click",function(){
+  countryUpdate(this.id);
+});
+var dislikeButton = d3.select("#dislike");
+dislikeButton.on("click",function(){
+  countryUpdate(this.id);
+});
+var commentButton = d3.select("#comment");
+ukButton.on("click",function(){
+  countryUpdate(this.id);
+});
