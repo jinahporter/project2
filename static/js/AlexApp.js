@@ -39,23 +39,28 @@ ukButton.on("click",function(){
 function countryUpdate(cCode){
   url=`/data/${cCode}`
   d3.json(url).then(function(response) {
-      console.log(response);
+      // console.log(response);
       data = response; 
     })
 };
+//metric buttons
 var likeButton = d3.select("#like");
 likeButton.on("click",function(){
-  countryUpdate(this.id);
+  metricUpdate("likes");
 });
 var viewButton = d3.select("#view");
 viewButton.on("click",function(){
-  countryUpdate(this.id);
+  metricUpdate("view_count");
 });
 var dislikeButton = d3.select("#dislike");
 dislikeButton.on("click",function(){
-  countryUpdate(this.id);
+  metricUpdate("dislikes");
 });
 var commentButton = d3.select("#comment");
 ukButton.on("click",function(){
-  countryUpdate(this.id);
+  metricUpdate("comment_count");
 });
+//
+function metricUpdate(metric){
+  console.log(data)
+}
