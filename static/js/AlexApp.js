@@ -42,13 +42,14 @@ function countryUpdate(cCode) {
     //console.log(response);
     data = response;
 
+    //Jinah: building the bar chart using Plotly
+
     var x_value = data.map(a => a.categoryId);
-    console.log(x_value);
+    //console.log(x_value);
 
-    var y_value = data.map(a => a.view_count);
-    console.log(y_value);
+    var y_value = data.map(a => a.country);
+    //console.log(y_value);
 
-    /* var y_value = data.map(a => a.country);
     var mColor = data.map(a => a.categoryID);
     var mSize = data.map(a => a.country);
     var textValue = data.map(a => a.categoryID);
@@ -64,9 +65,13 @@ function countryUpdate(cCode) {
       }
     };
 
-    var traceData = [trace1];
+    var data1 = [trace1];
 
-    Plotly.newPlot("lineChart", traceData); */
+    var layout1 = {
+      title: "Testing"
+    }
+
+    Plotly.newPlot("bar", data1, layout1);
   })
 };
 //metric buttons
