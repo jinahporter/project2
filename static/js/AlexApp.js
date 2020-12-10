@@ -39,8 +39,11 @@ ukButton.on("click", function () {
 function countryUpdate(cCode) {
   url = `/data/${cCode}`
   d3.json(url).then(function (response) {
-    // console.log(response);
+    console.log(response);
     data = response;
+    response.forEach(element => {
+      console.log(element)
+    });
     metricUpdate(currentMetric);
   })
 };
@@ -48,30 +51,45 @@ function countryUpdate(cCode) {
 var likeButton = d3.select("#like");
 likeButton.on("click", function () {
   metricUpdate("likes");
-  currentMetric("likes");
+  currentMetric = "likes";
 });
 var viewButton = d3.select("#view");
 viewButton.on("click", function () {
   metricUpdate("view_count");
-  currentMetric("view_count")
+  currentMetric = "view_count";
 });
 var dislikeButton = d3.select("#dislike");
 dislikeButton.on("click", function () {
   metricUpdate("dislikes");
-  currentMetric("dislikes");
+  currentMetric = "dislikes";
 });
 var commentButton = d3.select("#comment");
 ukButton.on("click", function () {
   metricUpdate("comment_count");
-  currentMetric("comment_count");
+  currentMetric = "comment_count";
 });
 //
 function metricUpdate(metric) {
-  console.log(data);
+  // console.log(data);
   // console.log(data[1]),
-  // console.log(data.view_count),
-  // console.log(data.likes),
-  // console.log(data[225].dislikes)
+  //   console.log(data.view_count),
+  //   console.log(data.likes),
+  //   console.log(data[225].dislikes)\
+
+
+  data.forEach(element => {
+    console.log(element)
+  });
+
+
+  // sortData.reverse()
+  // var top10Data = sortData.slice(0, 10);
+  // console.log(data);
+  // console.log(sortData)
+  // console.log(top10Data)
+
+  //make a dictionary where the keys are the catergories
+  //Loop through and add to the value of the dict 
 };
 
 // // // // ========================================================= // // // // 

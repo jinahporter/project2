@@ -43,6 +43,15 @@ engine = create_engine(
     # f"postgres://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbname}")
     f'postgresql://{dbuser}:{dbpassword}@database-1.cvmfiiilpm7y.us-east-1.rds.amazonaws.com:{dbport}/{dbname}')
 
+##### Open a session/connection #####
+session = Session(engine)
+connection = engine.connect()
+##### Perform a query to retrieve all the data #####
+df = pd.read_sql(f"SELECT * FROM youtube_table", connection)
+##### Close the session/connection #####
+connection.close()
+session.close()
+
 
 @app.route("/")
 def home():
@@ -55,7 +64,7 @@ def data(country):
     session = Session(engine)
     connection = engine.connect()
 
-    ##### Perform a query to retrieve the data and precipitation scores #####
+    ##### Perform a query to retrieve the data and sort by country #####
     singleCountry_youtubeVids = pd.read_sql(
         f"SELECT * FROM youtube_table WHERE country = '{country}'", connection)
 
@@ -69,6 +78,23 @@ def data(country):
 
     ##### Return a json which could be parsed further using js #####
     return jsonify(singleCountry_youtubeVids)
+
+    df_filtered_country = df.loc[df.country == country, :]
+
+
+# route to sum categories for bar plot
+@app.route("/forTable")
+def forTable(metric):
+    # df_likes = functions.likes(df)
+    df.sort_values(by='{metric}', desc).head(10)
+
+
+# route to sum categories for bar plot
+@app.route("/forbarchart")
+def forbarchart():
+
+
+df.groupby('categoryId').sum()[:, 3]
 
 
 if __name__ == "__main__":
