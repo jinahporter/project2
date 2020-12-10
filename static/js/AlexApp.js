@@ -37,7 +37,8 @@ ukButton.on("click", function () {
 });
 //Grab new Country Data
 function countryUpdate(cCode) {
-  url = `/data/${cCode}`
+  url = `/forTable/likes `
+  // url = `/data/${cCode}`
   d3.json(url).then(function (response) {
     console.log(response);
     data = response;
@@ -70,16 +71,16 @@ ukButton.on("click", function () {
 });
 //
 function metricUpdate(metric) {
-  // console.log(data);
+  console.log(data);
   // console.log(data[1]),
   //   console.log(data.view_count),
   //   console.log(data.likes),
   //   console.log(data[225].dislikes)\
 
 
-  data.forEach(element => {
-    console.log(element)
-  });
+  // data.forEach(element => {
+  //   console.log(element)
+  // });
 
 
   // sortData.reverse()

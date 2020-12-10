@@ -79,22 +79,43 @@ def data(country):
     ##### Return a json which could be parsed further using js #####
     return jsonify(singleCountry_youtubeVids)
 
-    df_filtered_country = df.loc[df.country == country, :]
+    # df_filtered_country = df.loc[df.country == country, :]
 
 
 # route to sum categories for bar plot
 @app.route("/forTable")
 def forTable(metric):
+
+    ##### perform query to get df with top 10 of data and country selected #####
     # df_likes = functions.likes(df)
-    df.sort_values(by='{metric}', desc).head(10)
+    # df_country = df.loc[df.country == '{country}', :]
+    # df_country = df_country
+    # Table_df = df_country.sort_values(
+    #     'likes', axis=0, descinding=True).head(10)
+    singleCountry_youtubeVids = singleCountry_youtubeVids.sort_values(
+        'likes', axis=0, descinding=True).head(10)
+
+    ##### Convert df to dict #####
+    Table_df = Table_df.to_dict(
+        orient='records')
+
+    ##### Return a json which could be parsed further using js #####
+    return jsonify(Table_df)
 
 
 # route to sum categories for bar plot
 @app.route("/forbarchart")
 def forbarchart():
 
+    ##### perform query to get df with top 10 of data and country selected #####
+    barChart_df = df.groupby('categoryId').sum()[:, 3]
 
-df.groupby('categoryId').sum()[:, 3]
+    ##### Convert df to dict #####
+    barChart_df = barChart_df.to_dict(
+        orient='records')
+
+    ##### Return a json which could be parsed further using js #####
+    return jsonify(barChart_df)
 
 
 if __name__ == "__main__":
