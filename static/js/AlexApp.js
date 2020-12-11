@@ -1,39 +1,37 @@
-var data;
 var currentMetric = "likes";
 var currentCountry="US"
-countryUpdate("US");
+graphUpdate();
 
 
 //Country Buttons
 var usButton = d3.select("#US");
 usButton.on("click", function () {
-  countryUpdate(this.id);
+  currentCountry=(this.id);
   graphUpdate();
-  console.log("working")
 });
 var caButton = d3.select("#CA");
 caButton.on("click", function () {
-  countryUpdate(this.id);
+  currentCountry=(this.id);
   graphUpdate();
 });
 var mxButton = d3.select("#MX");
 mxButton.on("click", function () {
-  countryUpdate(this.id);
+  currentCountry=(this.id);
   graphUpdate();
 });
 var ukButton = d3.select("#UK");
 ukButton.on("click", function () {
-  countryUpdate(this.id);
+  currentCountry=(this.id);
   graphUpdate();
 });
 //Grab new Country Data
 function countryUpdate(cCode) {
   currentCountry=cCode;
   url = `/data/${cCode}`
-  d3.json(url).then(function (response) {
-    // console.log(response);
-    data = response;
+  data=d3.json(url).then(function (response) {
+    return response;
   })
+  console.log(data[0]);
   graphUpdate();
 };
 //metric buttons
@@ -61,40 +59,75 @@ ukButton.on("click", function () {
 function graphUpdate() {
   // console.log(data);
   barPlot();
+  grabTableData();
 };
 function barPlot(){
   url = `/bar/${currentCountry}/${currentMetric}`
   d3.json(url).then(function (response) {
-    console.log(response);
-  })
+
   //Jinah: building the bar chart using Plotly
 
-  // var x_value = data.map(a => a.categoryId);
-  // //console.log(x_value);
+    var x_value = Object.keys(response);
+      //console.log(x_value);
 
-  // var y_value = data.map(a => a.country);
-  //console.log(y_value);
+    var y_value = Object.values(response);
+    //console.log(y_value);
 
-  var mColor = data.map(a => a.categoryID);
-  var mSize = data.map(a => a.country);
-  var textValue = data.map(a => a.categoryID);
-
-  var trace1 = {
-    x: x_value,
-    y: y_value,
-    text: textValue,
-    mode: "markers",
-    marker: {
-      color: mColor,
-      size: mSize
+    var trace1 = {
+      x: x_value,
+      y: y_value,
+      type: "bar",
+      name: `${currentMetric} for Country: ${currentCountry}`
     }
-  };
 
-  var data1 = [trace1];
+    var data1 = [trace1];
 
-  var layout1 = {
-    title: "Testing"
-  };
+    var layout1 = {
+      title: "testing"
+    };
 
-  Plotly.newPlot("bar", data1, layout1);
+    Plotly.newPlot("bar", data1, layout1);
+  })
 };
+
+// // // // ========================================================= // // // // 
+// // // //      FUNCTION TO GET DATA FOR A TABLE                     // // // //
+// // // // ========================================================= // // // // 
+// function buildTable(categoryId, title, channelTitle, view_count, comment_count, trending_date, likes, dislikes, thumbnail_link) {
+function grabTableData() {
+  url = `/data/${currentCountry}`
+  data=d3.json(url).then(function (response) {
+  
+    // currentMetric = "likes"
+    console.log(response);
+    var sortedData = response.sort((a, b) => a[currentMetric] - b[currentMetric]);
+    sortedData.reverse()
+    var top10TableData = sortedData.slice(0, 10);
+    console.log(`Top 10 list for ${countryUpdate} ${currentMetric}`);
+    console.log(top10TableData);
+  
+    buildTable_v1(top10TableData)
+  })
+}
+  
+function buildTable_v1(data) {
+  teebody = d3.select("tbody");
+  teebody.html("");
+  var table = d3.select("#summary-table");
+  var tbody = table.select("tbody");
+  var trow;
+
+  for (var i = 0; i < data.length; i++) {
+    console.log(data[i])
+    trow = teebody.append("tr");
+    trow.append("td").text(data[i].categoryId);
+    trow.append("td").text(data[i].title);
+    trow.append("td").text(data[i].channelTitle);
+    trow.append("td").text(data[i].view_count);
+    trow.append("td").text(data[i].comment_count);
+    trow.append("td").text(data[i].trending_date);
+    trow.append("td").text(data[i].likes);
+    trow.append("td").text(data[i].dislikes);
+    trow.append("td").text(data[i].thumbnail_link);
+  }
+}
