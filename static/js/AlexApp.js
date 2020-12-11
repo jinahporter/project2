@@ -20,8 +20,8 @@ mxButton.on("click", function () {
   currentCountry=(this.id);
   graphUpdate();
 });
-var ukButton = d3.select("#UK");
-ukButton.on("click", function () {
+var brButton = d3.select("#BR");
+brButton.on("click", function () {
   currentCountry=(this.id);
   graphUpdate();
 });
@@ -42,7 +42,7 @@ dislikeButton.on("click", function () {
   graphUpdate();
 });
 var commentButton = d3.select("#comment");
-ukButton.on("click", function () {
+commentButton.on("click", function () {
   currentMetric="comment_count";
   graphUpdate();
 });
@@ -60,10 +60,10 @@ function barPlot(){
   //Jinah: building the bar chart using Plotly
 
     var x_value = Object.keys(response);
-      //console.log(x_value);
+    console.log(x_value);
 
     var y_value = Object.values(response);
-    //console.log(y_value);
+    console.log(y_value);
 
     var trace1 = {
       x: x_value,
