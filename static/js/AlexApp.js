@@ -131,6 +131,7 @@ function buildTable_v1(data) {
     trow.append("td").text(data[i].dislikes);
     trow.append("td").append("a")
       .attr("href",`https://www.youtube.com/watch?v=${data[i].video_id}`)
+      .attr("target", "_blank")
       .append("img")
       .attr("src",data[i].thumbnail_link);
   }
