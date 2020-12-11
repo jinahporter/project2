@@ -9,7 +9,7 @@ var usButton = d3.select("#US");
 usButton.on("click", function () {
   countryUpdate(this.id);
   graphUpdate();
-  console.log("working")
+  //console.log("working")
 });
 var caButton = d3.select("#CA");
 caButton.on("click", function () {
@@ -21,7 +21,7 @@ mxButton.on("click", function () {
   countryUpdate(this.id);
   graphUpdate();
 });
-var ukButton = d3.select("#UK");
+var ukButton = d3.select("#BR");
 ukButton.on("click", function () {
   countryUpdate(this.id);
   graphUpdate();
@@ -65,36 +65,29 @@ function graphUpdate() {
 function barPlot(){
   url = `/bar/${currentCountry}/${currentMetric}`
   d3.json(url).then(function (response) {
-    console.log(response);
-  })
-  //Jinah: building the bar chart using Plotly
+    //console.log(response);
 
-  // var x_value = data.map(a => a.categoryId);
-  // //console.log(x_value);
+    //Object.entries(([key, value]))
 
-  // var y_value = data.map(a => a.country);
-  //console.log(y_value);
+    var x_value = Object.keys(response);
+    //console.log(x_value);
 
-  var mColor = data.map(a => a.categoryID);
-  var mSize = data.map(a => a.country);
-  var textValue = data.map(a => a.categoryID);
+    var y_value = Object.values(response);
+    //console.log(y_value);
 
-  var trace1 = {
-    x: x_value,
-    y: y_value,
-    text: textValue,
-    mode: "markers",
-    marker: {
-      color: mColor,
-      size: mSize
+    var trace1 = {
+      x: x_value,
+      y: y_value,
+      type: "bar",
+      name: `${currentMetric} for Country: ${currentCountry}`
     }
-  };
 
-  var data1 = [trace1];
+    var data1 = [trace1];
 
-  var layout1 = {
-    title: "Testing"
-  };
+    var layout1 = {
+      title: "testing"
+    };
 
-  Plotly.newPlot("bar", data1, layout1);
+    Plotly.newPlot("bar", data1, layout1);
+  });
 };
