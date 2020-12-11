@@ -115,35 +115,49 @@ button.on("click", function () {
   console.log(inputCountry, inputMetric, inputYear);
 
 });
-// // // // ========================================================= // // // //
-// // // //                            END                            // // // //
-// // // // ========================================================= // // // // 
-
 // // // // ========================================================= // // // // 
 // // // //      FUNCTION TO GET DATA FOR A TABLE                     // // // //
 // // // // ========================================================= // // // // 
-// function tableBuildLoop(selectedID) {
-// function composeTable(data) {
-  // var sortData = data.view_count.sort((a, b) => b - a);
-  // sortData.reverse()
-  // var top10Data = sortData.slice(0, 10);
-  // console.log(data);
-  // console.log(sortData)
-  // console.log(top10Data)
+function buildTable(categoryId, title, channelTitle, view_count, comment_count, trending_date, likes, dislikes, thumbnail_link) {
+  function composeTable(data) {
+    var metric = 'view_count'
+    // var country = 'US'
+    var sortedData = data.sort((a, b) => `b.${metric}` - `a.${metric}`);
+    sortedData.reverse()
+    var top10TableData = sortedData.slice(0, 10);
+    console.log("Top 10 list for `${metric}`: ", top10);
 
+    tbody.html("");
+    var table = d3.select("#YTTable");
+    var tbody = table.select("tbody");
+    var trow;
+    for (var i = 0; i < top10TableData.length; i++) {
+      trow = tbody.append("tr");
+      trow.append("td").text(categoryId[i]);
+      trow.append("td").text(title[i]);
+      trow.append("td").text(channelTitle[i]);
+      trow.append("td").text(view_count[i]);
+      trow.append("td").text(comment_count[i]);
+      trow.append("td").text(trending_date[i]);
+      trow.append("td").text(likes[i]);
+      trow.append("td").text(dislikes[i]);
+      trow.append("td").text(thumbnail_link[i]);
+    }
+  }
+}
 
-  // tbody.html("");
-  // top10data.forEach(Encounters => {
-  //   // console.log(tableData);
+function tableBuildLoop(selectedID) {
+  tbody.html("");
+  top10TableData.forEach(Encounters => {
+    // console.log(tableData);
+    var row = tbody.append('tr');
+    Object.values(Encounters).forEach(value => {
+      row.append('td').text(value);
+    })
+  })
+}
 
-  //   var row = tbody.append('tr');
-
-  //   Object.values(Encounters).forEach(value => {
-  //     row.append('td').text(value);
-  //   });
-
-  // });
-// };
+    // // // // ========================================================= // // // // 
 // // // // // ========================================================= // // // // 
 // // // // //                            END                            // // // //
 // // // // // ========================================================= // // // // 

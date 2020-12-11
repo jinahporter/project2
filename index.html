@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Youtube Slice Dice</title>
+  <title>YOUTUBE SLICE 'N' DICE</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -22,9 +22,22 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <h1>Youtube Videos Interactive Dashboard (Testing)</h1>
+        <h1>YOUTUBE SLICE 'N' DICE</h1>
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
+
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Dropdown button
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">2018</a>
+          <a class="dropdown-item" href="#">2019</a>
+          <a class="dropdown-item" href="#">2020</a>
+        </div>
+      </div>
+
     </div>
     <div class="row">
       <div class="col-md-2">
@@ -39,13 +52,13 @@
               Dropdown button
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">940</a>
-              <a class="dropdown-item" href="#">950</a>
-              <a class="dropdown-item" href="#">1260</a>
+              <a class="dropdown-item" href="#">2018</a>
+              <a class="dropdown-item" href="#">2019</a>
+              <a class="dropdown-item" href="#">2020</a>
             </div>
           </div> -->
         </div>
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" class="col-md-10">
           <div class="panel-heading">
             <h3 class="panel-title">Demographic Info</h3>
           </div>
@@ -71,6 +84,154 @@
       <div class="col-md-12">
         <div id="bubble"></div>
       </div>
+    </div>
+    <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+      <h2 class="tm-block-title">`YOUTUBE TOP TEN ${metric} LIST`</h2>
+      <table class="table" id="YTTable">
+        <thead>
+          <tr>
+            <th class="table-head">CATEGORY ID</th>
+            <th class="table-head">TITLE</th>
+            <th class="table-head">CHANNEL TITLE</th>
+            <th class="table-head">VIEW COUNT</th>
+            <th class="table-head">COMMENT COUNT</th>
+            <th class="table-head">TRENDING DATE</th>
+            <th class="table-head">LIKES</th>
+            <th class="table-head">DISLIKES</th>
+            <th class="table-head">THUMBNAIL LINK</th>
+            <!-- <th scope="col">CATEGORY ID</th>
+            <th scope="col">TITLE</th>
+            <th scope="col">CHANNEL TITLE</th>
+            <th scope="col">VIEW COUNT</th>
+            <th scope="col">COMMENT COUNT</th>
+            <th scope="col">TRENDING DATE</th>
+            <th scope="col">LIKES</th>
+            <th scope="col">DISLIKES</th>
+            <th scope="col">THUMBNAIL LINK</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><b>#122349</b></th>
+            <td>
+              <div class="tm-status-circle moving">
+              </div>Moving
+            </td>
+            <td><b>Oliver Trag</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>485 km</b></td>
+            <td>16:00, 12 NOV 2018</td>
+            <td>08:00, 18 NOV 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122348</b></th>
+            <td>
+              <div class="tm-status-circle pending">
+              </div>Pending
+            </td>
+            <td><b>Jacob Miller</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>360 km</b></td>
+            <td>11:00, 10 NOV 2018</td>
+            <td>04:00, 14 NOV 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122347</b></th>
+            <td>
+              <div class="tm-status-circle cancelled">
+              </div>Cancelled
+            </td>
+            <td><b>George Wilson</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>340 km</b></td>
+            <td>12:00, 22 NOV 2018</td>
+            <td>06:00, 28 NOV 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122346</b></th>
+            <td>
+              <div class="tm-status-circle moving">
+              </div>Moving
+            </td>
+            <td><b>William Aung</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>218 km</b></td>
+            <td>15:00, 10 NOV 2018</td>
+            <td>09:00, 14 NOV 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122345</b></th>
+            <td>
+              <div class="tm-status-circle pending">
+              </div>Pending
+            </td>
+            <td><b>Harry Ryan</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>280 km</b></td>
+            <td>15:00, 11 NOV 2018</td>
+            <td>09:00, 17 NOV 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122344</b></th>
+            <td>
+              <div class="tm-status-circle pending">
+              </div>Pending
+            </td>
+            <td><b>Michael Jones</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>218 km</b></td>
+            <td>18:00, 12 OCT 2018</td>
+            <td>06:00, 18 OCT 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122343</b></th>
+            <td>
+              <div class="tm-status-circle moving">
+              </div>Moving
+            </td>
+            <td><b>Timmy Davis</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>218 km</b></td>
+            <td>12:00, 10 OCT 2018</td>
+            <td>08:00, 18 OCT 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122342</b></th>
+            <td>
+              <div class="tm-status-circle moving">
+              </div>Moving
+            </td>
+            <td><b>Oscar Phyo</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>420 km</b></td>
+            <td>15:30, 06 OCT 2018</td>
+            <td>09:30, 16 OCT 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122341</b></th>
+            <td>
+              <div class="tm-status-circle moving">
+              </div>Moving
+            </td>
+            <td><b>Charlie Brown</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>300 km</b></td>
+            <td>11:00, 10 OCT 2018</td>
+            <td>03:00, 14 OCT 2018</td>
+          </tr>
+          <tr>
+            <th scope="row"><b>#122340</b></th>
+            <td>
+              <div class="tm-status-circle cancelled">
+              </div>Cancelled
+            </td>
+            <td><b>Wilson Cookies</b></td>
+            <td><b>London, UK</b></td>
+            <td><b>218 km</b></td>
+            <td>17:30, 12 OCT 2018</td>
+            <td>08:30, 22 OCT 2018</td>
+        </tbody>
+      </table>
     </div>
   </div>
 
