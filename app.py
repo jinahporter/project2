@@ -40,6 +40,15 @@ app = Flask(__name__)
 
 # Connect to Database - Alternative
 engine = create_engine(f"postgres://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbname}")
+# f'postgresql://{dbuser}:{dbpassword}@database-1.cvmfiiilpm7y.us-east-1.rds.amazonaws.com:{dbport}/{dbname}')
+
+session = Session(engine)
+connection = engine.connect()
+
+youtubeVids = pd.read_sql(f"SELECT * FROM youtube_table", connection)
+
+connection.close()
+session.close()
 
 @app.route("/")
 def home():
@@ -63,6 +72,30 @@ def data(country):
     session.close()
 
     ##### Return a json which could be parsed further using js #####
+    return jsonify(singleCountry_youtubeVids)
+
+@app.route("/data/<country>/<metric>")
+def bar(country,metric):
+    #Invoiking import_func to capture all the date based on country
+
+    session = Session(engine)
+    connection = engine.connect()
+
+    singleCountry_youtubeVids = pd.read_sql(
+        f"SELECT * FROM youtube_table WHERE country = '{country}'", connection)
+
+    connection.close()
+    session.close()
+    
+
+    #Grouping dataframe by category to get all likes
+    
+    singleCountry_youtubeVids=singleCountry_youtubeVids.groupby('categoryId')[metric].sum()
+    singleCountry_youtubeVids = singleCountry_youtubeVids.to_dict(orient='records')
+    
+    
+
+   
     return jsonify(singleCountry_youtubeVids)
 
 if __name__ == "__main__":
