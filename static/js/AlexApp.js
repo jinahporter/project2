@@ -60,6 +60,7 @@ function graphUpdate() {
   // console.log(data);
   barPlot();
   grabTableData();
+  newBarPlot();
 };
 function barPlot() {
   url = `/bar/${currentCountry}/${currentMetric}`
@@ -67,27 +68,53 @@ function barPlot() {
 
   //Jinah: building the bar chart using Plotly
 
-    var x_value = Object.keys(response);
+    var y_value = Object.keys(response);
       //console.log(x_value);
 
-    var y_value = Object.values(response);
+    var x_value = Object.values(response);
     //console.log(y_value);
 
     var trace1 = {
       x: x_value,
       y: y_value,
       type: "bar",
-      name: `${currentMetric} for Country: ${currentCountry}`
+      orientation: 'h',
+      name: `${currentMetric} for ${currentCountry}`,
+      marker: {
+        color: 'rgba(55, 128, 191, 0.6',
+        width: 1
+      }
     }
 
     var data1 = [trace1];
 
     var layout1 = {
-      title: "testing"
+      title: `${currentMetric} for ${currentCountry}`
     };
 
     Plotly.newPlot("bar", data1, layout1);
   })
+};
+
+function newBarPlot() {
+  url = `/data/${currentCountry}`
+  data = d3.json(url).then(function (response) {
+    //jinah (12/11 12pm) - line 103 works
+    //console.log(response);
+
+    var likes_count = response.map(a => a.likes);
+    console.log(likes_count);
+
+    var likes_count_sorted = likes_count.sort((a, b) => b-a).slice(0, 10);
+    console.log(likes_count_sorted);
+    //likes_count_sorted.reverse()
+
+    //var likes_count_sorted_top10 = likes_count_sorted.slice(0, 10);
+    //likes_count_sorted_top10.reverse()
+    //console.log(likes_count_sorted_top10);
+
+
+  });
 };
 
 // // // // ========================================================= // // // // 
@@ -99,12 +126,12 @@ function grabTableData() {
   data=d3.json(url).then(function (response) {
   
     // currentMetric = "likes"
-    console.log(response);
+    //console.log(response);
     var sortedData = response.sort((a, b) => a[currentMetric] - b[currentMetric]);
     sortedData.reverse()
     var top10TableData = sortedData.slice(0, 10);
-    console.log(`Top 10 list for ${countryUpdate} ${currentMetric}`);
-    console.log(top10TableData);
+    //console.log(`Top 10 list for ${countryUpdate} ${currentMetric}`);
+    //console.log(top10TableData);
   
     buildTable_v1(top10TableData)
   })
@@ -118,7 +145,7 @@ function buildTable_v1(data) {
   var trow;
 
   for (var i = 0; i < data.length; i++) {
-    console.log(data[i])
+    //console.log(data[i])
     trow = teebody.append("tr");
     trow.append("td").text(data[i].categoryId);
     trow.append("td").text(data[i].title);
