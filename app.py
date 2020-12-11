@@ -57,46 +57,29 @@ def home():
 @app.route("/data/<country>")
 def data(country):
      ##### Open a session/connection #####
-    session = Session(engine)
-    connection = engine.connect()
 
-    ##### Perform a query to retrieve the data and precipitation scores #####
-    singleCountry_youtubeVids = pd.read_sql(
-        f"SELECT * FROM youtube_table WHERE country = '{country}'", connection)
 
-    ##### Convert df to json #####
-    singleCountry_youtubeVids = singleCountry_youtubeVids.to_dict(orient='records')
+  singleCountry_youtubeVids=youtubeVids[youtubeVids["country"]==country]
 
+  singleCountry_youtubeVids = singleCountry_youtubeVids.to_dict(orient='records')
     ##### Close the session/connection #####
-    connection.close()
-    session.close()
 
     ##### Return a json which could be parsed further using js #####
-    return jsonify(singleCountry_youtubeVids)
+  return jsonify(singleCountry_youtubeVids)
 
-@app.route("/data/<country>/<metric>")
+@app.route("/bar/<country>/<metric>")
 def bar(country,metric):
     #Invoiking import_func to capture all the date based on country
 
-    session = Session(engine)
-    connection = engine.connect()
-
-    singleCountry_youtubeVids = pd.read_sql(
-        f"SELECT * FROM youtube_table WHERE country = '{country}'", connection)
-
-    connection.close()
-    session.close()
-    
-
+  barData=youtubeVids[youtubeVids["country"]==country]
     #Grouping dataframe by category to get all likes
     
-    singleCountry_youtubeVids=singleCountry_youtubeVids.groupby('categoryId')[metric].sum()
-    singleCountry_youtubeVids = singleCountry_youtubeVids.to_dict(orient='records')
-    
-    
+  barData=barData.groupby('categoryId').sum()
+  barData=barData[metric]
+  barData=barData.to_dict()
+     
+  return jsonify(barData)
 
-   
-    return jsonify(singleCountry_youtubeVids)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -9,6 +9,7 @@ var usButton = d3.select("#US");
 usButton.on("click", function () {
   countryUpdate(this.id);
   graphUpdate();
+  console.log("working")
 });
 var caButton = d3.select("#CA");
 caButton.on("click", function () {
@@ -30,9 +31,10 @@ function countryUpdate(cCode) {
   currentCountry=cCode;
   url = `/data/${cCode}`
   d3.json(url).then(function (response) {
-    //console.log(response);
+    // console.log(response);
     data = response;
   })
+  graphUpdate();
 };
 //metric buttons
 var likeButton = d3.select("#like");
@@ -61,37 +63,38 @@ function graphUpdate() {
   barPlot();
 };
 function barPlot(){
-  //Jinah: building the bar chart using Plotly
-  url=`/bar/${currentCountry}/${currentMetric}`
+  url = `/bar/${currentCountry}/${currentMetric}`
   d3.json(url).then(function (response) {
     console.log(response);
-    var x_value = data.map(a => a.categoryId);
-    //console.log(x_value);
-
-    var y_value = data.map(a => a.country);
-    //console.log(y_value);
-
-    var mColor = data.map(a => a.categoryID);
-    var mSize = data.map(a => a.country);
-    var textValue = data.map(a => a.categoryID);
-
-    var trace1 = {
-      x: x_value,
-      y: y_value,
-      text: textValue,
-      mode: "markers",
-      marker: {
-        color: mColor,
-        size: mSize
-      }
-    };
-
-    var data1 = [trace1];
-
-    var layout1 = {
-      title: "Testing"
-    };
-
-    Plotly.newPlot("bar", data1, layout1);
   })
+  //Jinah: building the bar chart using Plotly
+
+  // var x_value = data.map(a => a.categoryId);
+  // //console.log(x_value);
+
+  // var y_value = data.map(a => a.country);
+  //console.log(y_value);
+
+  var mColor = data.map(a => a.categoryID);
+  var mSize = data.map(a => a.country);
+  var textValue = data.map(a => a.categoryID);
+
+  var trace1 = {
+    x: x_value,
+    y: y_value,
+    text: textValue,
+    mode: "markers",
+    marker: {
+      color: mColor,
+      size: mSize
+    }
+  };
+
+  var data1 = [trace1];
+
+  var layout1 = {
+    title: "Testing"
+  };
+
+  Plotly.newPlot("bar", data1, layout1);
 };
