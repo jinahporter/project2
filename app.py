@@ -1,4 +1,3 @@
-
 # import necessary libraries
 import os
 import pandas as pd
@@ -13,6 +12,8 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
+
+from datetime import datetime
 
 from config import dbuser, dbpassword, dbhost, dbport, dbname
 
@@ -44,6 +45,14 @@ engine = create_engine(
     # f"postgres://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbname}")
     f'postgresql://{dbuser}:{dbpassword}@database-1.cvmfiiilpm7y.us-east-1.rds.amazonaws.com:{dbport}/{dbname}')
 
+session = Session(engine)
+connection = engine.connect()
+
+youtubeVids = pd.read_sql(f"SELECT * FROM youtube_table", connection)
+
+connection.close()
+session.close()
+
 
 @app.route("/")
 def home():
@@ -53,23 +62,65 @@ def home():
 @app.route("/data/<country>")
 def data(country):
      ##### Open a session/connection #####
-    session = Session(engine)
-    connection = engine.connect()
 
-    ##### Perform a query to retrieve the data and precipitation scores #####
-    singleCountry_youtubeVids = pd.read_sql(
-        f"SELECT * FROM youtube_table WHERE country = '{country}'", connection)
+    singleCountry_youtubeVids = youtubeVids[youtubeVids["country"] == country]
 
-    ##### Convert df to json #####
     singleCountry_youtubeVids = singleCountry_youtubeVids.to_dict(
         orient='records')
-
     ##### Close the session/connection #####
-    connection.close()
-    session.close()
 
     ##### Return a json which could be parsed further using js #####
     return jsonify(singleCountry_youtubeVids)
+
+
+@app.route("/bar/<country>/<metric>")
+def bar(country, metric):
+
+    barData = youtubeVids[youtubeVids["country"] == country]
+
+    barData = barData.groupby('categoryId').sum()
+    barData = barData[metric]
+    barData = barData.to_dict()
+
+    return jsonify(barData)
+
+
+@app.route("/line/<country>/<metric>")
+def line(country, metric):
+
+    lineData = youtubeVids[youtubeVids["country"] == country]
+
+    # add a timestamp column to dataframe
+    timestamps = []
+    for index, row in youtubeVids.iterrows():
+        t = row["publishedAt"]
+        td = datetime(t.year, t.month, t.day)
+        datetime.timestamp(td)
+        timestamps.append(datetime.timestamp(td))
+    youtubeVids["timestamp"] = timestamps
+
+    # get top three categories
+    topThree = list(lineData.groupby(["categoryId"]).sum()[
+                    "likes"].sort_values(ascending=False).index[0:3])
+
+    # Select one category and group by timeStamp
+    first = youtubeVids[youtubeVids["categoryId"] == topThree[0]]
+    first = first.groupby("timestamp").sum()
+    first = first["view_count"].to_dict()
+
+    return jsonify(first)
+
+
+@app.route("/bubble/<country>/<metric>")
+def bubble(country, metric):
+
+    barData = youtubeVids[youtubeVids["country"] == country]
+
+    barData = barData.groupby('categoryId').mean()
+    barData = barData[metric]
+    barData = barData.to_dict()
+
+    return jsonify(barData)
 
 
 if __name__ == "__main__":
