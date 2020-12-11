@@ -94,20 +94,21 @@ function barPlot() {
 };
 
 // // // // ========================================================= // // // // 
-// // // //      FUNCTION TO GET DATA FOR A TABLE                     // // // //
+// // // //     FUNCTION TO GET DATA FOR A INDV VIDEO TABLE           // // // //
 // // // // ========================================================= // // // // 
-// function buildTable(categoryId, title, channelTitle, view_count, comment_count, trending_date, likes, dislikes, thumbnail_link) {
 function grabTableData(data) {
-  // currentMetric = "likes"
+  // Sort data by selected metric, reverse it and then  (Current metric)
   var sortedData = data.sort((a, b) => a[currentMetric] - b[currentMetric]);
   sortedData.reverse()
-  var top10TableData = sortedData.slice(0, 10);
+  var top10TableData = sortedData.slice(0, 5);
   console.log(`Top 10 list for ${countryUpdate} ${currentMetric}`);
   console.log(top10TableData);
 
+  // Call funtion to build the table
   buildTable_v1(top10TableData)
 }
 
+// // // // ======== Funtion to build the table ======== // // // // 
 function buildTable_v1(data) {
   teebody = d3.select("tbody");
   teebody.html("");
@@ -118,6 +119,7 @@ function buildTable_v1(data) {
   for (var i = 0; i < data.length; i++) {
     console.log(data[i])
     trow = teebody.append("tr");
+    trow.append("td").text(data[i].country);
     trow.append("td").text(data[i].categoryId);
     trow.append("td").text(data[i].title);
     trow.append("td").text(data[i].channelTitle);
@@ -126,8 +128,7 @@ function buildTable_v1(data) {
     trow.append("td").text(data[i].trending_date);
     trow.append("td").text(data[i].likes);
     trow.append("td").text(data[i].dislikes);
-    trow.append("td").text(data[i].thumbnail_link);
+    // trow.append("td").text(data[i].thumbnail_link);
   }
 }
-
-      // // // // ========================================================= // // // // 
+// // // // ======== End of Funtion ======== // // // //
