@@ -128,6 +128,9 @@ function buildTable_v1(data) {
     trow.append("td").text(data[i].trending_date);
     trow.append("td").text(data[i].likes);
     trow.append("td").text(data[i].dislikes);
-    trow.append("td").text(data[i].thumbnail_link);
+    trow.append("td").append("a")
+      .attr("href",`https://www.youtube.com/watch?v=${data[i].video_id}`)
+      .append("img")
+      .attr("src",data[i].thumbnail_link);
   }
 }
