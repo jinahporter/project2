@@ -37,98 +37,83 @@ ukButton.on("click", function () {
 });
 //Grab new Country Data
 function countryUpdate(cCode) {
-  url = `/forTable/likes `
-  // url = `/data/${cCode}`
+  url = `/data/${cCode}`
   d3.json(url).then(function (response) {
-    console.log(response);
+    //console.log(response);
     data = response;
-    response.forEach(element => {
-      console.log(element)
-    });
-    metricUpdate(currentMetric);
+
+    //Jinah: building the bar chart using Plotly
+
+    var x_value = data.map(a => a.categoryId);
+    //console.log(x_value);
+
+    var y_value = data.map(a => a.country);
+    //console.log(y_value);
+
+    var mColor = data.map(a => a.categoryID);
+    var mSize = data.map(a => a.country);
+    var textValue = data.map(a => a.categoryID);
+
+    var trace1 = {
+      x: x_value,
+      y: y_value,
+      text: textValue,
+      mode: "markers",
+      marker: {
+        color: mColor,
+        size: mSize
+      }
+    };
+
+    var data1 = [trace1];
+
+    var layout1 = {
+      title: "Testing"
+    }
+
+    Plotly.newPlot("bar", data1, layout1);
   })
 };
 //metric buttons
 var likeButton = d3.select("#like");
 likeButton.on("click", function () {
   metricUpdate("likes");
-  currentMetric = "likes";
+  currentMetric("likes");
 });
 var viewButton = d3.select("#view");
 viewButton.on("click", function () {
   metricUpdate("view_count");
-  currentMetric = "view_count";
+  currentMetric("view_count")
 });
 var dislikeButton = d3.select("#dislike");
 dislikeButton.on("click", function () {
   metricUpdate("dislikes");
-  currentMetric = "dislikes";
+  currentMetric("dislikes");
 });
 var commentButton = d3.select("#comment");
 ukButton.on("click", function () {
   metricUpdate("comment_count");
-  currentMetric = "comment_count";
+  currentMetric("comment_count");
 });
 //
 function metricUpdate(metric) {
-  console.log(data);
-  // console.log(data[1]),
-  //   console.log(data.view_count),
-  //   console.log(data.likes),
-  //   console.log(data[225].dislikes)\
+  console.log(data)
+}
 
-
-  // data.forEach(element => {
-  //   console.log(element)
-  // });
-
-
-  // sortData.reverse()
-  // var top10Data = sortData.slice(0, 10);
-  // console.log(data);
-  // console.log(sortData)
-  // console.log(top10Data)
-
-  //make a dictionary where the keys are the catergories
-  //Loop through and add to the value of the dict 
-};
-
-// // // // ========================================================= // // // // 
-// // // //      OPTIONAL FOR A xxx BAR WITH A FILTER BUTTON          // // // //
-// // // // ========================================================= // // // //
-// Create a custom function to run a filter on the data when the search values are given and the 'Filter button' is pressed
-// Select the button
-var button = d3.select("#filter-btn");
-
-button.on("click", function () {
-
-  // Select the input element and get the raw HTML node
-  var inputElementCountry = d3.select("#countryPick");
-  var inputElementMetric = d3.select("#metricPick");
-  var inputElementYear = d3.select("#yearPick");
-
-  // Get the value property of the input element
-  var inputCountry = inputElementCountry.property("value");
-  var inputMetric = inputElementMetric.property("value");
-  var inputYear = inputElementYear.property("value");
-
-  console.log(inputCountry, inputMetric, inputYear);
-
-});
 // // // // ========================================================= // // // // 
 // // // //      FUNCTION TO GET DATA FOR A TABLE                     // // // //
 // // // // ========================================================= // // // // 
 function buildTable(categoryId, title, channelTitle, view_count, comment_count, trending_date, likes, dislikes, thumbnail_link) {
   function composeTable(data) {
-    var metric = 'view_count'
+    // var metric = 'view_count'
     // var country = 'US'
-    var sortedData = data.sort((a, b) => `b.${metric}` - `a.${metric}`);
+    var sortedData = data.sort((a, b) => `b.${currentMetric}` - `a.${currentMetric}`);
     sortedData.reverse()
     var top10TableData = sortedData.slice(0, 10);
-    console.log("Top 10 list for `${metric}`: ", top10);
+    console.log("Top 10 list for `${currentMetric}`: ", top10);
 
-    tbody.html("");
-    var table = d3.select("#YTTable");
+
+    var table = d3.select("#summary-table");
     var tbody = table.select("tbody");
     var trow;
     for (var i = 0; i < top10TableData.length; i++) {
@@ -158,8 +143,3 @@ function tableBuildLoop(selectedID) {
 }
 
     // // // // ========================================================= // // // // 
-// // // // // ========================================================= // // // // 
-// // // // //                            END                            // // // //
-// // // // // ========================================================= // // // // 
-
-// composeTable(data);
