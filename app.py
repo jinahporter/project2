@@ -13,6 +13,8 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 
+from datetime import datetime
+
 from config import dbuser, dbpassword, dbhost, dbport, dbname
 
 #################################################
@@ -62,16 +64,16 @@ def data(country):
   singleCountry_youtubeVids=youtubeVids[youtubeVids["country"]==country]
 
   singleCountry_youtubeVids = singleCountry_youtubeVids.to_dict(orient='records')
+    ##### Close the session/connection #####
 
     ##### Return a json which could be parsed further using js #####
   return jsonify(singleCountry_youtubeVids)
 
 @app.route("/bar/<country>/<metric>")
 def bar(country,metric):
-    #Invoiking import_func to capture all the date based on country
 
   barData=youtubeVids[youtubeVids["country"]==country]
-    #Grouping dataframe by category to get all likes
+
     
   barData=barData.groupby('categoryId').sum()
   barData=barData[metric]
@@ -79,6 +81,30 @@ def bar(country,metric):
      
   return jsonify(barData)
 
+@app.route("/line/<country>/<metric>")
+def line(country,metric):
 
+  lineData=youtubeVids[youtubeVids["country"]==country]
+
+  #add a timestamp column to dataframe
+  timestamps=[]
+  for index,row in youtubeVids.iterrows():
+    t=row["publishedAt"]
+    td=datetime(t.year, t.month, t.day)
+    datetime.timestamp(td)
+    timestamps.append(datetime.timestamp(td))
+  youtubeVids["timestamp"]=timestamps
+  
+  #get top three categories
+  topThree=list(lineData.groupby(["categoryId"]).sum()["likes"].sort_values(ascending=False).index[0:3])
+
+  #Select one category and group by timeStamp
+  first=youtubeVids[youtubeVids["categoryId"]==topThree[0]]
+  first=first.groupby("timestamp").sum()
+  first=first["view_count"].to_dict()
+
+  return jsonify(first)
+
+  
 if __name__ == "__main__":
     app.run(debug=True)
