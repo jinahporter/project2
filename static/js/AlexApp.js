@@ -1,3 +1,4 @@
+
 var data;
 var currentMetric = "likes";
 countryUpdate("US");
@@ -58,7 +59,6 @@ function graphUpdate() {
   console.log(data);
   barPlot();
   grabTableData(data);
-
 };
 function barPlot() {
   //Jinah: building the bar chart using Plotly
@@ -93,55 +93,41 @@ function barPlot() {
   Plotly.newPlot("bar", data1, layout1);
 };
 
-// // // // ========================================================= // // // //
-// // // //                            END                            // // // //
-// // // // ========================================================= // // // // 
-
 // // // // ========================================================= // // // // 
 // // // //      FUNCTION TO GET DATA FOR A TABLE                     // // // //
 // // // // ========================================================= // // // // 
 // function buildTable(categoryId, title, channelTitle, view_count, comment_count, trending_date, likes, dislikes, thumbnail_link) {
 function grabTableData(data) {
   // currentMetric = "likes"
-  var sortedData = data.sort((a, b) => `a.${currentMetric}` - `b.${currentMetric}`);
+  var sortedData = data.sort((a, b) => a[currentMetric] - b[currentMetric]);
   sortedData.reverse()
   var top10TableData = sortedData.slice(0, 10);
   console.log(`Top 10 list for ${countryUpdate} ${currentMetric}`);
-  console.log(currentMetric)
   console.log(top10TableData);
 
-  buildTable1(top10TableData)
+  buildTable_v1(top10TableData)
 }
 
-// function buildTable(data) {
-//   tbody.html("");
-//   var table = d3.select("#summary-table");
-//   var tbody = table.select("tbody");
-//   var trow;
-//   for (var i = 0; i < data.length; i++) {
-//     trow = tbody.append("tr");
-//     trow.append("td").text(categoryId[i]);
-//     trow.append("td").text(title[i]);
-//     trow.append("td").text(channelTitle[i]);
-//     trow.append("td").text(view_count[i]);
-//     trow.append("td").text(comment_count[i]);
-//     trow.append("td").text(trending_date[i]);
-//     trow.append("td").text(likes[i]);
-//     trow.append("td").text(dislikes[i]);
-//     trow.append("td").text(thumbnail_link[i]);
-//   }
-// }
-// }
+function buildTable_v1(data) {
+  teebody = d3.select("tbody");
+  teebody.html("");
+  var table = d3.select("#summary-table");
+  var tbody = table.select("tbody");
+  var trow;
 
-function buildTable1(top10TableData) {
-  tbody.html("");
-  top10TableData.forEach(video => {
-    // console.log(tableData);
-    var row = tbody.append('tr');
-    Object.values(video).forEach(value => {
-      row.append('td').text(value);
-    })
-  })
+  for (var i = 0; i < data.length; i++) {
+    console.log(data[i])
+    trow = teebody.append("tr");
+    trow.append("td").text(data[i].categoryId);
+    trow.append("td").text(data[i].title);
+    trow.append("td").text(data[i].channelTitle);
+    trow.append("td").text(data[i].view_count);
+    trow.append("td").text(data[i].comment_count);
+    trow.append("td").text(data[i].trending_date);
+    trow.append("td").text(data[i].likes);
+    trow.append("td").text(data[i].dislikes);
+    trow.append("td").text(data[i].thumbnail_link);
+  }
 }
 
-    // // // // ========================================================= // // // // 
+      // // // // ========================================================= // // // // 
