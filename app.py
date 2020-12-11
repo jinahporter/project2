@@ -62,7 +62,6 @@ def data(country):
   singleCountry_youtubeVids=youtubeVids[youtubeVids["country"]==country]
 
   singleCountry_youtubeVids = singleCountry_youtubeVids.to_dict(orient='records')
-    ##### Close the session/connection #####
 
     ##### Return a json which could be parsed further using js #####
   return jsonify(singleCountry_youtubeVids)

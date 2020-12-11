@@ -1,39 +1,37 @@
-var data;
 var currentMetric = "likes";
-var currentCountry = "US"
-countryUpdate("US");
+var currentCountry="US"
+graphUpdate();
 
 
 //Country Buttons
 var usButton = d3.select("#US");
 usButton.on("click", function () {
-  countryUpdate(this.id);
+  currentCountry=(this.id);
   graphUpdate();
-  //console.log("working")
 });
 var caButton = d3.select("#CA");
 caButton.on("click", function () {
-  countryUpdate(this.id);
+  currentCountry=(this.id);
   graphUpdate();
 });
 var mxButton = d3.select("#MX");
 mxButton.on("click", function () {
-  countryUpdate(this.id);
+  currentCountry=(this.id);
   graphUpdate();
 });
 var ukButton = d3.select("#BR");
 ukButton.on("click", function () {
-  countryUpdate(this.id);
+  currentCountry=(this.id);
   graphUpdate();
 });
 //Grab new Country Data
 function countryUpdate(cCode) {
   currentCountry = cCode;
   url = `/data/${cCode}`
-  d3.json(url).then(function (response) {
-    console.log(response);
-    data = response;
+  data=d3.json(url).then(function (response) {
+    return response;
   })
+  console.log(data[0]);
   graphUpdate();
 };
 //metric buttons
@@ -61,17 +59,16 @@ ukButton.on("click", function () {
 function graphUpdate() {
   // console.log(data);
   barPlot();
-  newPlot();
+  grabTableData();
 };
 function barPlot() {
   url = `/bar/${currentCountry}/${currentMetric}`
   d3.json(url).then(function (response) {
-    console.log(response);
 
-    //Object.entries(([key, value]))
+  //Jinah: building the bar chart using Plotly
 
     var x_value = Object.keys(response);
-    //console.log(x_value);
+      //console.log(x_value);
 
     var y_value = Object.values(response);
     //console.log(y_value);
@@ -90,44 +87,50 @@ function barPlot() {
     };
 
     Plotly.newPlot("bar", data1, layout1);
-  });
-}
-
-//create top 10 h-bar chart
-function newPlot() {
-  //currentCountry = countryCode;
-  url2 = `/data/${currentCountry}`
-  d3.json(url2).then(function (response) {
-    //console.log("urls");
-    console.log(response);
-    data = response;
-
-    var sortedData = data.sort((a, b) => a[currentMetric] - b[currentMetric]);
-    sortedData.reverse()
-
-    var top10_views = sortedData.slice(0, 10);
-    console.log(`Top 10 Views`);
-    console.log(top10_views);
-
-    var titles = data.map(a => a.title);
-    console.log(titles);
-
-    var trace2 = {
-      x: titles,
-      y: top10_views,
-      type: "bar"
-    };
-
-    var data2 = [trace2];
-
-    var layout2 = {
-      title: `Top 10 Views in ${currentCountry}`,
-      xaxis: { title: "Video Titles" },
-      yaxis: { title: "Total Views" }
-    };
-
-    Plotly.newPlot("bar2", data2, layout2);
-
-
   })
 };
+
+// // // // ========================================================= // // // // 
+// // // //      FUNCTION TO GET DATA FOR A TABLE                     // // // //
+// // // // ========================================================= // // // // 
+// function buildTable(categoryId, title, channelTitle, view_count, comment_count, trending_date, likes, dislikes, thumbnail_link) {
+function grabTableData() {
+  url = `/data/${currentCountry}`
+  data=d3.json(url).then(function (response) {
+  
+    // currentMetric = "likes"
+    console.log(response);
+    var sortedData = response.sort((a, b) => a[currentMetric] - b[currentMetric]);
+    sortedData.reverse()
+    var top10TableData = sortedData.slice(0, 10);
+    console.log(`Top 10 list for ${countryUpdate} ${currentMetric}`);
+    console.log(top10TableData);
+  
+    buildTable_v1(top10TableData)
+  })
+}
+  
+function buildTable_v1(data) {
+  teebody = d3.select("tbody");
+  teebody.html("");
+  var table = d3.select("#summary-table");
+  var tbody = table.select("tbody");
+  var trow;
+
+  for (var i = 0; i < data.length; i++) {
+    console.log(data[i])
+    trow = teebody.append("tr");
+    trow.append("td").text(data[i].categoryId);
+    trow.append("td").text(data[i].title);
+    trow.append("td").text(data[i].channelTitle);
+    trow.append("td").text(data[i].view_count);
+    trow.append("td").text(data[i].comment_count);
+    trow.append("td").text(data[i].trending_date);
+    trow.append("td").text(data[i].likes);
+    trow.append("td").text(data[i].dislikes);
+    trow.append("td").append("a")
+      .attr("href",`https://www.youtube.com/watch?v=${data[i].video_id}`)
+      .append("img")
+      .attr("src",data[i].thumbnail_link);
+  }
+}
