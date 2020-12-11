@@ -60,6 +60,13 @@ function barPlot(){
   //Jinah: building the bar chart using Plotly
 
     var x_value = Object.keys(response);
+    x_value=x_value.map(function(entry){
+      if (entry == 29){
+        return "Nonprofits & Activism";
+      }else{
+        return entry;
+      };
+    });
     console.log(x_value);
 
     var y_value = Object.values(response);
