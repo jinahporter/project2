@@ -126,7 +126,7 @@ function newPlot() {
       yaxis: { title: "Total Views" }
     };
 
-    Plotly.newPlot("bar2", data2, layout2); */
+    Plotly.newPlot("bar2", data2, layout2);
 
 
   })
