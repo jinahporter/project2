@@ -2,12 +2,12 @@
 ### Team Members: Alex Riner, Emeka Obianyor, Jinah Porter, Pankaj Tahiliani
 
 ### Description of the Project
-Discovering YouTube Trends in United States, Canada, United Kingdom and Mexico
+Discovering YouTube Trends in United States, Canada, Brazil and Mexico
 
 ### Requirements:
 1) Included: Python Flask RESTful API, HTML/CSS, JavaScript and PostgreSQL
 2) D3 / Leaflet for visualization
-3) Project is going to be deployed to Heroku
+
 
 ### Breakdown the tasks
 1) Pull data to pandas (Python) and cleaning 
