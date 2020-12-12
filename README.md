@@ -2,7 +2,8 @@
 ### Team Members: Alex Riner, Emeka Obianyor, Jinah Porter, Pankaj Tahiliani
 
 ### Description of the Project
-Discovering YouTube Trends in United States, Canada, Brazil and Mexico
+Create an interactive webpage that allows our user to parse and visualize a data set of trending 
+YouTube videos in United States, Canada, Brazil and Mexico. Data sourced from Kaggle.
 
 ### Requirements:
 1) Included: Python Flask RESTful API, HTML/CSS, JavaScript and PostgreSQL
