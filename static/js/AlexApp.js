@@ -67,10 +67,10 @@ function barPlot(){
         return entry;
       };
     });
-    console.log(x_value);
+    //console.log(x_value);
 
     var y_value = Object.values(response);
-    console.log(y_value);
+    //console.log(y_value);
 
     var trace1 = {
       x: x_value,
@@ -89,7 +89,11 @@ function barPlot(){
       plot_bgcolor:"#2F2B44",
       paper_bgcolor:"#2F2B44",
       xaxis:{
-        tickangle: 30
+        tickangle: 30,
+        title: "Category Names"
+      },
+      yaxis: {
+        title: `Total Counts of ${currentMetric}`
       }
     };
     var config = {responsive: true}
@@ -156,6 +160,7 @@ function lineGraph(){
       //console.log(x_value);
 
       var y_value = Object.values(response);
+      //console.log(y_value);
 
       var trace1 = {
         x: x_value,
@@ -169,7 +174,11 @@ function lineGraph(){
         title: "Top Category Over Time",
         yaxis: {
           type: 'log',
-          autorange: true
+          autorange: true,
+          title: `Total Views of ${currentMetric}`
+        },
+        xaxis: {
+          title: "Dates: Aug 2020 to Dec 2020"
         },
         font: {   
           color: '#ffffff'
