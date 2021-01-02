@@ -1,6 +1,6 @@
 # Project 2
 ### Contributors: 
-### Alex Riner, Emeka Obianyor, Jinah Porter, Pankaj Tahiliani
+#### Alex Riner, Emeka Obianyor, Jinah Porter, Pankaj Tahiliani
 
 ### Description of Project:
 Create an interactive web application that allows our user to parse and visualize a data set of trending 
