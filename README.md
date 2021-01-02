@@ -10,7 +10,7 @@ compared to Canada?", "The relationship between no. of views and intereactions (
 could be answered using our web app. Data was sourced from Kaggle. 
 
 ### Tools Used:
-Python and pandas for data cleaning, 
+Python and pandas in a jupyter notebook for data cleaning, 
 Data was stored in a PostgreSQL data based
 A Flask RESTful API was built to interact with the database and the JavaScript and HTML code, 
 HTML/CSS, JavaScript were used to create the web page
